@@ -1,0 +1,27 @@
+
+Started : "Check Syntax for activation_function".
+Running xst...
+Command Line: xst -intstyle ise -ifn D:/Final_IT/Final_Project/activation_function.xst -ofn activation_function.stx
+Reading design: activation_function.prj
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "D:\Final_IT\Final_Project\activation_function.vhd" into library work
+Parsing entity <activation_function>.
+Parsing architecture <Behavioral> of entity <activation_function>.
+
+
+Total REAL time to Xst completion: 6.00 secs
+Total CPU time to Xst completion: 6.28 secs
+ 
+--> 
+
+Total memory usage is 216016 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+
+
+Process "Check Syntax" completed successfully

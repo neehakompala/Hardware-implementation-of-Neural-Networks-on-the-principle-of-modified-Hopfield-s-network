@@ -1,0 +1,27 @@
+
+Started : "Check Syntax for three_ip_MAC".
+Running xst...
+Command Line: xst -intstyle ise -ifn D:/Final_IT/Final_Project/three_ip_MAC.xst -ofn three_ip_MAC.stx
+Reading design: three_ip_MAC.prj
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "D:\Final_IT\Final_Project\three_ip_MAC.vhd" into library work
+Parsing entity <three_ip_MAC>.
+Parsing architecture <fsm> of entity <three_ip_mac>.
+
+
+Total REAL time to Xst completion: 7.00 secs
+Total CPU time to Xst completion: 6.90 secs
+ 
+--> 
+
+Total memory usage is 216208 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+
+
+Process "Check Syntax" completed successfully

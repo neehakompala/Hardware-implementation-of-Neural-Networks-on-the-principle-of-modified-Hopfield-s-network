@@ -1,0 +1,334 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_SIGNED.ALL;
+entity xor_nn is
+	Port ( in1 : in std_logic_vector(6 downto 0);
+	in2 : in std_logic_vector(6 downto 0);
+	clk : in std_logic;
+	result7 : out std_logic_vector (6 downto 0);
+	result1 : out std_logic;
+	done : out std_logic;
+	enable : in std_logic);
+end xor_nn;
+architecture fsm of xor_nn is
+	signal macA_mr, macA_md, macB_mr, macB_md : std_logic_vector ( 6 downto 0 );
+	signal macA_en, macB_en : std_logic;
+	signal macA_reset, macB_reset : std_logic;
+	signal macA_done, macB_done : std_logic;
+	signal macA_result, macB_result : std_logic_vector (13 downto 0);
+	signal in31,in32 : std_logic_vector ( 6 downto 0);
+	signal actfn_input : std_logic_vector (13 downto 0);
+	signal actfn_output : std_logic_vector (6 downto 0);
+	signal actfn_en : std_logic;
+	type ffwd_state is ( s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17,s18, s19, sa, sb, sc);
+	signal xor_state : ffwd_state;
+	signal b1,w10,w11,w12,b2,w20,w21,w22,b3,w30,w31,w32 : std_logic_vector ( 6 downto 0);
+	signal in1_tmp, in2_tmp : std_logic_vector ( 6 downto 0 );
+	signal actfn_tmp : std_logic_vector (13 downto 0);
+	component three_ip_MAC is
+	Port (
+		mr, md : in std_logic_vector ( 6 downto 0 );
+		clk : in std_logic;
+		enable : in std_logic;
+		reset : in std_logic;
+		done : out std_logic;
+		mac_result : out std_logic_vector ( 13 downto 0)
+	);
+	end component;
+	component activation_function is
+	Port (
+		input : in std_logic_vector(13 downto 0);
+		output : out std_logic_vector(6 downto 0);
+		enable : in std_logic;
+		clk : in std_logic
+	);
+	end component;
+begin
+	b1<= "0010000";
+	w10 <= "1101000";
+	w11<= "0010000";
+	w12<= "0010000";
+	b2<= "0010000";
+	w20 <= "1111000";
+	w21<= "0010000";
+	w22<= "0010000";
+	b3<= "0010000";
+	w30 <= "1111000";
+	w31 <= "1100000";
+	w32<= "0010000";
+	in1_tmp <= in1;
+	in2_tmp <= in2;
+	actfn_input <= actfn_tmp;
+	macA : three_ip_MAC port map ( macA_mr, macA_md, clk, macA_en, macA_reset, macA_done, macA_result);
+	macB : three_ip_MAC port map ( macB_mr, macB_md, clk, macB_en, macB_reset, macB_done, macB_result);
+	actfn : activation_function port map ( actfn_input, actfn_output, actfn_en, clk);
+	process (clk, enable)
+	variable done_var : std_logic := '0';
+begin
+	if (enable = '1') then
+	if (clk'event and clk = '1' ) then
+	case xor_state is
+	when s0 =>
+	if ( done_var = '0') then
+	macA_reset <= '1';
+	macB_reset <= '1';
+	macA_mr <= "0000000";
+	macB_mr <= "0000000";
+	macA_md <= "0000000";
+	macB_md <= "0000000";
+	in31 <= "0000000";
+	in32 <= "0000000";
+	actfn_tmp <= "00000000000000";
+	xor_state <= s1;
+	end if;
+	when s1 =>
+	macA_mr <= b1;
+	macA_md <= w10;
+	macB_mr <= b2;
+	macB_md <= w20;
+	macA_reset <= '0';
+	macB_reset <= '0';
+	macA_en <= '1';
+	macB_en <= '1';
+	xor_state <= s2;
+	when s2 =>
+	if ( macA_done = '1' and macB_done = '1') then
+	macA_en <= '0';
+	macB_en <= '0';
+	xor_state <= s3;
+	end if;
+	when s3 =>
+	macA_mr <= in1_tmp;
+	macA_md <= w11;
+	macB_mr <= in1_tmp;
+	macB_md <= w21;
+	macA_en <= '1';
+	macB_en <= '1';
+	xor_state <= s4;
+	when s4 =>
+	if ( macA_done = '1' and macB_done = '1') then
+	macA_en <= '0';
+	macB_en <= '0';
+	xor_state <= s5;
+	end if;
+	when s5 =>
+	macA_mr <= in2_tmp;
+	macA_md <= w12;
+	macB_mr <= in2_tmp;
+	macB_md <= w22;
+	macA_en <= '1';
+	macB_en <= '1';
+	xor_state <= s6;
+	when s6 =>
+	if ( macA_done = '1' and macB_done = '1') then
+	macA_en <= '0';
+	macB_en <= '0';
+	actfn_en<= '1';
+	xor_state <= s7;
+	end if;
+	when s7 =>
+	actfn_tmp <= macA_result;
+	xor_state <= sc;
+	when sc =>
+	xor_state <= s8;
+	when s8 =>
+	in31 <= actfn_output;
+	xor_state <= s9;
+	when s9 =>
+	actfn_tmp <= macB_result;
+	xor_state <= sa;
+	when sa =>
+	xor_state <= sb;
+	when sb =>
+	in32 <= actfn_output;
+	xor_state <= s10;
+	when s10 =>
+	actfn_en <= '0';
+	macA_reset <= '1';
+	macB_reset <= '1';
+	xor_state <= s11;
+	when s11 =>
+	macA_reset <= '0';
+	macB_reset <= '0';
+	macA_mr <= b3;
+	macA_md <= w30;
+	macA_en <= '1';
+	xor_state <= s12;
+	when s12 =>
+	if ( macA_done = '1') then
+	macA_en <= '0';
+	xor_state <= s13;
+	end if;
+	when s13 =>
+	macA_mr <= in31;
+	macA_md <= w31;
+	macA_en <= '1';
+	xor_state <= s14;
+	when s14 =>
+	if ( macA_done = '1') then
+	macA_en <= '0';
+	xor_state <= s15;
+	end if;
+	when s15 =>
+	macA_mr <= in32;
+	macA_md <= w32;
+	macA_en <= '1';
+	xor_state <= s16;
+	when s16 =>
+	if ( macA_done = '1') then
+	macA_en <= '0';
+	actfn_en <= '1';
+	xor_state <= s17;
+	end if;
+	when s17 =>
+	actfn_tmp <= macA_result;
+	xor_state <= s18;
+	when s18 =>
+	xor_state <= s19;
+	when s19 =>
+	actfn_en <= '0';
+	result7 <= actfn_output;
+	if ( actfn_output >= "0001000") then
+	result1 <= '1';
+	else
+	result1 <= '0';
+	end if;
+	done <= '1';
+	done_var := '1';
+	xor_state <= s0;
+	end case;
+	end if;
+	else
+	done <= '0';
+	done_var := '0';
+	result1 <= '0';
+	result7 <= "0000000";
+	macA_mr <= "0000000";
+	macB_mr <= "0000000";
+	macA_md <= "0000000";
+	macB_md <= "0000000";
+	in31 <= "0000000";
+	in32 <= "0000000";
+	actfn_tmp <= "00000000000000";
+	end if;
+	end process;
+	end fsm;
+
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_SIGNED.ALL;
+entity three_ip_MAC is
+	Port (
+	mr, md : in std_logic_vector ( 6 downto 0 );
+	clk : in std_logic;
+	enable : in std_logic;
+	reset : in std_logic;
+	done : out std_logic;
+	mac_result : out std_logic_vector ( 13 downto 0)
+	);
+end three_ip_MAC;
+architecture fsm of three_ip_MAC is
+	type states is (init, add_sub, shift, accumulate);
+	signal mply_state : states;
+	signal count : std_logic_vector (2 downto 0);
+	signal tmp_result : std_logic_vector ( 13 downto 0);
+	begin
+	process (clk, enable, reset)
+		variable done_var : std_logic := '0';
+		variable temp_md : std_logic_vector (7 downto 0) := "00000000";
+		variable temp_out : std_logic_vector ( 14 downto 0 ) :="000000000000000";
+		variable temp_result : std_logic_vector ( 13 downto 0):="00000000000000";
+begin
+	if (reset = '1') then
+	mac_result <= "00000000000000";
+	temp_result := "00000000000000";
+	tmp_result <= "00000000000000";
+	else
+	if(enable = '1') then
+	if (clk'event and clk = '1') then
+	case mply_state is
+	when init =>
+	if (done_var = '0') then
+	temp_out (6 downto 0) := mr;
+	temp_md (6 downto 0) := md;
+	temp_md (7) := md(6);
+	mply_state <= add_sub;
+	else
+	null;
+	end if;
+	when add_sub =>
+	if (temp_out(0) = '1') then
+	if (count = "110") then
+	temp_out ( 14 downto 7 ) := temp_out ( 14 downto 7 ) - temp_md ( 7 downto 0);
+	else
+	temp_out ( 14 downto 7 ) := temp_out ( 14 downto 7 ) + temp_md ( 7 downto 0);
+	end if;
+	else
+	null;
+	end if;
+	mply_state <= shift;
+when shift =>
+temp_out (13 downto 0) := temp_out (14 downto 1);
+tmp_result (13 downto 0) <= temp_out (13 downto 0);
+if (count = "110") then
+mply_state <= accumulate;
+done <= '1';
+done_var := '1';
+temp_out (14 downto 0) :=
+"000000000000000";
+count <= "000";
+else
+mply_state <= add_sub;
+count <= count + 1;
+end if;
+when accumulate =>
+temp_result := temp_result + tmp_result;
+mac_result <= temp_result;
+mply_state <= init;
+end case;
+end if;
+else
+mply_state <= init;
+tmp_result <= "00000000000000";
+temp_out (14 downto 0) := "000000000000000";
+done_var := '0';
+done <= '0';
+count <= "000";
+end if;
+end if;
+end process;
+end fsm;
+
+
+//ACTIVATIPN FUNCC
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_SIGNED.ALL;
+entity activation_function is
+	Port ( input : in std_logic_vector(13 downto 0);
+	output : out std_logic_vector(6 downto 0);
+	enable : in std_logic;
+	clk : in std_logic
+	);
+end activation_function;
+architecture Behavioral of activation_function is
+begin
+process ( clk)
+begin
+	if (clk'event and clk = '1') then
+	if (enable = '1') then
+	if (input < 0) then
+	output <= "0000000";
+	else
+	output <= "0010000";
+	end if;
+	end if;
+	end if;
+end process;
+end Behavioral;
