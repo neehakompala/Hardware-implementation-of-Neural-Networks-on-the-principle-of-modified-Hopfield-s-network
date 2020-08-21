@@ -1,0 +1,3 @@
+work	"activation_function.vhd"
+work	"three_ip_MAC.vhd"
+work	"xor_nn.vhd"

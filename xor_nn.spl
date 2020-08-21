@@ -1,0 +1,10 @@
+[Inputs]
+clk
+enable
+=in1[6:0]=
+=in2[6:0]=
+[Outputs]
+result1
+done
+=result7[6:0]=
+[BiDir]

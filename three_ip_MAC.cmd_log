@@ -1,0 +1,4 @@
+vhdtdtfi -lib work three_ip_MAC.vhd -prj Final_Project -o three_ip_MAC.spl -module three_ip_MAC -template D:/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family artix7 three_ip_MAC.spl D:/Final_IT/Final_Project/three_ip_MAC.sym 
+vhdtdtfi -lib work three_ip_MAC.vhd -prj Final_Project -o three_ip_MAC.spl -module three_ip_MAC -template D:/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family artix7 three_ip_MAC.spl D:/Final_IT/Final_Project/three_ip_MAC.sym 

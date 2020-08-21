@@ -1,0 +1,43 @@
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+vhdtdtfi -lib work three_ip_MAC.vhd -lib work activation_function.vhd -lib work xor_nn.vhd -prj Final_Project -o xor_nn.spl -module xor_nn -template D:/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family artix7 xor_nn.spl D:/Final_IT/Final_Project/xor_nn.sym 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+vhdtdtfi -lib work three_ip_MAC.vhd -lib work activation_function.vhd -lib work xor_nn.vhd -prj Final_Project -o xor_nn.spl -module xor_nn -template D:/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family artix7 xor_nn.spl D:/Final_IT/Final_Project/xor_nn.sym 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+netgen -intstyle ise -insert_glbl true -w -dir netgen/synthesis -ofmt verilog -sim xor_nn.ngc xor_nn_synthesis.v 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+netgen -intstyle ise -insert_glbl true -w -dir netgen/synthesis -ofmt verilog -sim xor_nn.ngc xor_nn_synthesis.v 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+netgen -intstyle ise -insert_glbl true -w -dir netgen/synthesis -ofmt verilog -sim xor_nn.ngc xor_nn_synthesis.v 
+vhdtdtfi -lib work three_ip_MAC.vhd -lib work activation_function.vhd -lib work xor_nn.vhd -prj Final_Project -o xor_nn.spl -module xor_nn -template D:/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family artix7 xor_nn.spl D:/Final_IT/Final_Project/xor_nn.sym 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+par -w -intstyle ise -ol high -mt off xor_nn_map.ncd xor_nn.ncd xor_nn.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml xor_nn.twx xor_nn.ncd -o xor_nn.twr xor_nn.pcf 
+netgen -intstyle ise -insert_glbl true -w -dir netgen/synthesis -ofmt verilog -sim xor_nn.ngc xor_nn_synthesis.v 
+bitgen -intstyle ise -f xor_nn.ut xor_nn.ncd 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+xst -intstyle ise -ifn "D:/Final_IT/Final_Project/xor_nn.xst" -ofn "D:/Final_IT/Final_Project/xor_nn.syr" 
+netgen -intstyle ise -insert_glbl true -w -dir netgen/synthesis -ofmt verilog -sim xor_nn.ngc xor_nn_synthesis.v 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-3 xor_nn.ngc xor_nn.ngd  
+map -intstyle ise -p xc7a100t-csg324-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o xor_nn_map.ncd xor_nn.ngd xor_nn.pcf 
+par -w -intstyle ise -ol high -mt off xor_nn_map.ncd xor_nn.ncd xor_nn.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml xor_nn.twx xor_nn.ncd -o xor_nn.twr xor_nn.pcf 

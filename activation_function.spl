@@ -1,0 +1,7 @@
+[Inputs]
+enable
+clk
+=input[13:0]=
+[Outputs]
+=output[6:0]=
+[BiDir]

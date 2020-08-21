@@ -1,0 +1,10 @@
+[Inputs]
+clk
+enable
+reset
+=mr[6:0]=
+=md[6:0]=
+[Outputs]
+done
+=mac_result[13:0]=
+[BiDir]
